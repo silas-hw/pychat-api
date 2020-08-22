@@ -15,7 +15,7 @@ class Client():
     FORMAT = 'utf-8'
     DISCONNECT_MESSAGE = "!close"
 
-    def __init__(self, name, colour):
+    def __init__(self, name="UN-NAMED", colour="#3240a8"):
         self.bot = User(name, colour)
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.connect(self.ADDR)
