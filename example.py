@@ -2,7 +2,7 @@ import pychatapi
 from pychatapi import Client
 
 import random, logging
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.INFO)
 
 client = Client("BOT-API-TEST", "#000000")
 
