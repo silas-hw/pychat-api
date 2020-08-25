@@ -18,11 +18,15 @@ class Client():
 
     def __init__(self, name="UN-NAMED", colour="#3240a8"):
         self.bot = User(name, colour)
+        logging.info("Bot user object created")
+        
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        logging.info("Socket created")
+        
         self.client.connect(self.ADDR)
+        logging.info("Connection created")
 
     def send(self, msg):
-
         msg = Message(msg, self.bot) #make message object with content
         message = pickle.dumps(msg)
         msgLength = len(message)
@@ -53,5 +57,4 @@ class Client():
                     break
                 
                 func(msg)
-
         return wrapper
