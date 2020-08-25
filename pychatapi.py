@@ -1,6 +1,7 @@
 from classes import User, Message
 import socket
 import pickle
+import logging
 
 class Client():
     '''
@@ -31,17 +32,26 @@ class Client():
         self.client.send(message)
 
     def _receive(self):
-        msgHeader = self.client.recv(self.HEADER).decode(self.FORMAT)
+        try:
+            msgHeader = self.client.recv(self.HEADER).decode(self.FORMAT)
 
-        if msgHeader:
-            msgLength = int(msgHeader)
-            msg = self.client.recv(msgLength)
-            msg = pickle.loads(msg)
-            return msg
+            if msgHeader:
+                msgLength = int(msgHeader)
+                msg = self.client.recv(msgLength)
+                msg = pickle.loads(msg)
+                return msg
+        #if server closes connection
+        except ConnectionResetError:
+            logging.error("Server closed connection")
 
     def listener(self, func):
         def wrapper():
             while True:
                 msg = self._receive()
+
+                if not msg:
+                    break
+                
                 func(msg)
+
         return wrapper
